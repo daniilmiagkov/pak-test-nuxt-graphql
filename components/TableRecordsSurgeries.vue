@@ -1,4 +1,5 @@
 <template>
+<!--
   <table class="table">
     <thead class="table__head">
     <tr class="table__row table__row_head">
@@ -29,11 +30,26 @@
     </tr>
     </tbody>
   </table>
+-->
+  <div>
+    <UTable :rows="rows" />
 
+    <div class="flex justify-end px-3 py-3.5 border-t border-gray-200 dark:border-gray-700">
+      <UPagination v-model="page" :page-count="pageCount" :total="operationRecords.length" />
+    </div>
+  </div>
 
 </template>
 
 <script setup lang="ts">
+import {computed, ref} from "@vue/reactivity";
+
+const page = ref(1)
+const pageCount = 5
+
+const rows = computed(() => {
+  return operationRecords.slice((page.value - 1) * pageCount, (page.value) * pageCount)
+})
 // Определение интерфейса для операции
 interface OperationRecord {
   dateTime: string;
@@ -124,7 +140,7 @@ function generateOperationRecords(n: number): OperationRecord[] {
 
 // Пример использования: генерация списка из 5 операций
 const operationRecords = generateOperationRecords(30);
-console.log(operationRecords);
+// console.log(operationRecords);
 
 
 </script>
