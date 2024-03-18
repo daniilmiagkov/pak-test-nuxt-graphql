@@ -1,4 +1,4 @@
-FROM node:18-alpine AS builder
+FROM node:20.11.1-alpine AS builder
 
 WORKDIR /usr/src/app
 
@@ -6,11 +6,19 @@ COPY package*.json ./
 
 RUN npm install
 
-COPY . .
+COPY assets ./assets
+COPY components ./components
+COPY public ./public
+COPY server ./server
+COPY utils ./utils
+COPY app.vue ./
+COPY nuxt.config.ts ./
+COPY tsconfig.json ./
+
 
 RUN npm run build
 
-FROM node:18-alpine
+FROM node:20.11.1-alpine
 
 WORKDIR /usr/src/app
 
